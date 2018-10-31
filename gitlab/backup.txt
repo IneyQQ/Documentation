@@ -1,0 +1,17 @@
+$GIT_HOME=/opt/gitlab/
+
+$GIT_BIN=$GIT_HOME/bin
+
+$GIT_RAKE=$GIT_BIN/gitlab-rake
+
+
+Backup command: 
+$GIT_RAKE gitlab:backup:create
+
+
+Backups location: 
+/var/opt/gitlab/backups/
+
+
+Restore command: 
+$GIT_RAKE gitlab:backup:restore BACKUP=1531339367_2018_07_11_9.3.11
