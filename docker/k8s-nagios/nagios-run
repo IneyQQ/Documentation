@@ -1,0 +1,5 @@
+#!/bin/bash
+/usr/sbin/httpd -DFOREGROUND &
+/usr/sbin/nagios -v /etc/nagios/nagios.cfg
+/usr/sbin/nagios -d /etc/nagios/nagios.cfg
+wait $!

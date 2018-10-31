@@ -1,0 +1,1 @@
+docker run --privileged -d -p 86:80 --name=nagios-prod -v "/mnt/nagios-TC/cfg:/etc/nagios" -v "/mnt/nagios-TC/plugins:/usr/lib64/nagios/plugins" -v "/mnt/nagios-TC/log:/var/log/nagios" --hostname=nagios --dns=172.20.0.1 --dns=172.20.0.2 --dns=172.16.0.1 --dns=172.16.0.2 k8s-nagios

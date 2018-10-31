@@ -1,0 +1,5 @@
+poll mail_server_ip
+protocol pop3
+user 'user@domain.com' is root
+password 'pass'
+mda '/usr/bin/procmail -d %T'

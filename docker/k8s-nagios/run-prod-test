@@ -1,0 +1,1 @@
+docker run --privileged -d -p 88:80 --name=nagios-prod-test -v "/root/MShauliuk/mnt/nagios/cfg:/etc/nagios" -v "/root/MShauliuk/mnt/nagios/plugins:/usr/lib64/nagios/plugins" -v "/root/MShauliuk/mnt/nagios/log:/var/log/nagios" --hostname=nagios --dns=172.20.0.1 --dns=172.20.0.2 --dns=172.16.0.1 --dns=172.16.0.2 nagios

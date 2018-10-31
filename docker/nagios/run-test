@@ -1,0 +1,3 @@
+location=
+
+docker run --privileged -d -p 87:80 --name=nagios-test -v "$location/cfg:/etc/nagios" -v "$location/plugins:/usr/lib64/nagios/plugins" -v "$location/log:/var/log/nagios" --hostname=nagios-test --dns=172.20.0.1 --dns=172.20.0.2 --dns=172.16.0.1 --dns=172.16.0.2 nagios

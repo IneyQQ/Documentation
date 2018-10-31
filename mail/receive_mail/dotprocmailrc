@@ -1,0 +1,21 @@
+#MAIL_FILE=$HOME/mail/inbox/`date +%F_%H-%M-%S.%N` # IT WORKS
+MAIL_FILE=$HOME/mail_backup
+ATTACHMENTS=$HOME/attachments
+
+:0
+*^content-Type:
+{
+        # backup the complete mail first..
+        # you can leave out this part if you don't want a backup of the complete mail
+        :0c:
+        $MAIL_FILE
+
+        # Now the actual unpacking part
+        #
+        # this is the place where the attachments will be unpacked to
+
+        # forward to metamail
+        :0fw
+        #| munpack -C $ATTACHMENTS
+        | uudeview -i +a +o -p $ATTACHMENTS -
+}

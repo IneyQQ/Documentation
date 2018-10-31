@@ -1,0 +1,1 @@
+docker run --privileged -id --name=backups-prod -v "/opt/machines-dumps:/opt/backups" -v "/opt/tc-dumps-compare-test/core3:/opt/main-script" --hostname=backups-prod --dns=172.20.0.1 --dns=172.20.0.2 --dns=172.16.0.1 --dns=172.16.0.2 backups
