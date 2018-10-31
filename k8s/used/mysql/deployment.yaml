@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mysql-dev
+  namespace: mysql
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        environment: dev
+    spec:
+      containers:
+          #- image: mysql:5.7
+      - image: mariadb
+        name: mysql-dev
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-root
+              key: password_root
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-data-storage
+          mountPath: /var/lib/mysql
+        - name: mysql-conf-storage
+          mountPath: /etc/mysql/conf.d
+      volumes:
+      - name: mysql-data-storage
+        persistentVolumeClaim:
+          claimName: mysql-dev-data
+      - name: mysql-conf-storage
+        persistentVolumeClaim:
+          claimName: mysql-dev-conf

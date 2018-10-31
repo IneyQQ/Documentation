@@ -1,0 +1,3 @@
+sudo cp /usr/share/zoneinfo/Europe/Minsk /etc/localtime
+
+ntpdate -u 172.20.0.1

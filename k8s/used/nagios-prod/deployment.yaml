@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nagios-prod
+  namespace: nagios
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nagios-prod
+    spec:
+      containers:
+      - name: nagios-prod
+        image: docker-lsbt.iba:5000/k8s-nagios
+        ports:
+          - name: http
+            containerPort: 80
+            protocol: TCP
+
+        volumeMounts:
+        - mountPath: /var/log/nagios
+          name: nagios-pvc
+          subPath: prod/log
+
+        - mountPath: /etc/nagios
+          name: nagios-pvc
+          subPath: prod/cfg
+
+        - mountPath: /usr/lib64/nagios/plugins
+          name: nagios-pvc
+          subPath: prod/plugins
+
+      imagePullSecrets:
+        - name: registrypullsecret
+
+      volumes:
+      - name: nagios-pvc
+        persistentVolumeClaim:
+          claimName: nagios-pvc
+
+      restartPolicy: Always

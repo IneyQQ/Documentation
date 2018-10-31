@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: docker-registry-auth
+  labels:
+    type: nfs
+spec:
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: nfs-lsbt.iba
+    path: "/storage/share/docker-registry/auth"

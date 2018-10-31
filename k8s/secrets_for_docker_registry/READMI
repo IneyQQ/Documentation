@@ -1,0 +1,2 @@
+#Example:
+kubectl create -n <namespace-name> -f registry-secrets.yaml

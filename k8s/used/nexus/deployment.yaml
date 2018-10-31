@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nexus
+  namespace: nexus
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nexus-sonatype
+    spec:
+      containers:
+      - name: nexus
+        image: sonatype/nexus:oss
+        env:
+        - name: CONTEXT_PATH
+          value: /nexus
+        ports:
+          - name: nexus-port
+            containerPort: 8081
+            protocol: TCP
+        volumeMounts:
+        - mountPath: /sonatype-work
+          name: nexus-data
+      volumes:
+      - name: nexus-data
+        persistentVolumeClaim:
+          claimName: nexus-data
+      restartPolicy: Always

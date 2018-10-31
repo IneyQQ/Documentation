@@ -1,0 +1,72 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gitlab-test
+  namespace: gitlab-test
+  labels:
+    app: gitlab-test
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gitlab-test
+    spec:
+      serviceAccountName: default
+      containers:
+      - name: gitlab-test
+        image: gitlab/gitlab-ce:9.3.1-ce.0
+        env:
+        ## General GitLab Configs
+        - name: external_url
+          value: 'http://172.20.142.61:10080'
+        ports:
+        - name: ssh
+          containerPort: 22
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
+        livenessProbe:
+          httpGet:
+             path: /help
+             port: http
+          # This pod takes a very long time to start up. Be cautious when
+          # lowering this value to avoid Pod death during startup.
+          initialDelaySeconds: 200
+          timeoutSeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 10
+          #readinessProbe:
+          #httpGet:
+          #  path: /help
+          #  port: http
+          #initialDelaySeconds: 60
+          #timeoutSeconds: 1
+          #periodSeconds: 10
+          #successThreshold: 1
+          #failureThreshold: 3
+        volumeMounts:
+        - name: gitlab-test-etc
+          mountPath: /etc/gitlab
+        - name: gitlab-test-data
+          mountPath: /var/opt/gitlab
+        - name: gitlab-test-logs
+          mountPath: /var/log/gitlab
+          #  - name: gitlab-test-reconfigure
+          # mountPath: /var/log/gitlab-test/reconfigure
+        resources:
+      volumes:
+      - name: gitlab-test-etc
+        persistentVolumeClaim:
+            claimName: gitlab-test-etc
+      - name: gitlab-test-data
+        persistentVolumeClaim:
+            claimName: gitlab-test-data
+      - name: gitlab-test-logs
+        persistentVolumeClaim:
+            claimName: gitlab-test-logs
+            # - name: gitlab-test-reconfigure
+            #persistentVolumeClaim:
+            #claimName: gitlab-test-reconfigure
