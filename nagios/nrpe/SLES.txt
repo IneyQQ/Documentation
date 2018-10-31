@@ -4,7 +4,7 @@ zypper addrepo http://download.opensuse.org/distribution/11.2/repo/oss/ opensuse
 zypper install -y perl-Socket6 perl-Net-SNMP perl-Socket6 perl-Test-Manifest perl-Crypt-Rijndael perl-Crypt-DES
 zypper install -y libopenssl0_9_8 nagios-nrpe nagios-nrpe-server nagios-plugins
 zypper remove -y nagios
-mount ms-lsbt.iba:/storage/share/nrpe/ubuntu /etc/nagios
+mount <ip>:/storage/share/nrpe/ubuntu /etc/nagios
 useradd nagios
 iptables -I input_ext -p tcp -m tcp --dport 5666 -j ACCEPT
 iptables -I input_ext -p udp -m udp --dport 5666 -j ACCEPT
