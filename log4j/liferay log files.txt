@@ -1,0 +1,4 @@
+tomcat-7.0.62/webapps/ROOT/WEB-INF/classes/logging.properties - Liferay?
+tomcat-7.0.62/webapps/ROOT/WEB-INF/classes/log4j.properties - Liferay
+tomcat-7.0.62/webapps/ROOT/WEB-INF/classes/META-INF/portal-log4j.xml - Liferay
+tomcat-7.0.62/conf/logging.properties - Tomcat
