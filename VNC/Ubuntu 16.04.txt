@@ -1,0 +1,27 @@
+sudo apt-get install vnc4server
+sudo apt-get install --no-install-recommends ubuntu-desktop gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal gnome-core
+vncserver :1
+
+****************************************
+
+:x мапит vnc-server на порт 5900 + x
+≈сли порт не открыт, можно использовать ssh port local forwarding (Tunnels). ќн будет перенаправлс€ть трафик ssh на определенный порт на машине через порт используемый ssh.   тому же это позвол€ет устанавливать защищенное соединение.
+
+ssh -L 127.0.0.1:80:remote2.example.com:81 remote1.example.com 
+ - подключение к remote1.example.com и перенаправление запросов пришедших с 127.0.0.1 на localhost:80 на remote2.example.com:81 через remote1.example.com.
+
+ѕример ~/.vnc/xstartup:
+
+#!/bin/sh
+
+[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+xsetroot -solid grey
+vncconfig -iconic &
+x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+x-window-manager &
+
+gnome-panel &
+gnome-settings-daemon &
+metacity &
+nautilus &

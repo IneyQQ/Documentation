@@ -1,5 +1,10 @@
 Install:
-yum install nfs-server
+yum install -y nfs-server
+apt-get install -y nfs-server
+ufw allow 111
+ufw allow 2049
+echo "/opt/liferay-portal-6.2-ce-ga6/tomcat-7.0.62/logs/      *(rw,insecure,nohide,no_root_squash,no_subtree_check)" >> /etc/exports
+exportfs -a
 
 configure:
 /etc/hosts - set valid hostname

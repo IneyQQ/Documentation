@@ -1,0 +1,2 @@
+Add mysql backup checks.
+Bugfix stderr and stdout in email are not displayes.
