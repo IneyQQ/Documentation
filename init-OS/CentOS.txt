@@ -1,0 +1,4 @@
+yum install -y bash-completion.noarch bash-completion-extras.noarch
+
+HOSTNAME=
+hostnamectl set-hostname $HOSTNAME
