@@ -2,8 +2,8 @@
 ``` groovy
 def build = build job: '/path/to/job',
     parameters: [
-        string(name: 'STRING_PARAM', value: 'value'), 
-        text(name: 'TEXT_PARAM', value: 'multiline\ntext\n'),
+		string(name: 'STRING_PARAM', value: 'value'), 
+		text(name: 'TEXT_PARAM', value: 'multiline\ntext\n'),
 		booleanParam(name: 'BOOLEAN_PARAM', value: false)
     ]
 echo build.displayName
