@@ -2,3 +2,5 @@ tomcat-7.0.62/webapps/ROOT/WEB-INF/classes/logging.properties - Liferay?
 tomcat-7.0.62/webapps/ROOT/WEB-INF/classes/log4j.properties - Liferay
 tomcat-7.0.62/webapps/ROOT/WEB-INF/classes/META-INF/portal-log4j.xml - Liferay
 tomcat-7.0.62/conf/logging.properties - Tomcat
+
+sudo sed -i -e 's/log4j.rootLogger=INFO/log4j.rootLogger=WARN/g' /opt/liferay-portal-6.2-ce-ga6/tomcat-7.0.62/webapps/*/WEB-INF/classes/log4j.properties

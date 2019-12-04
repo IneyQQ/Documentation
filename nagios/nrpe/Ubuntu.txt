@@ -1,5 +1,5 @@
 apt-get install -y nagios-nrpe-server nfs-common
-mount <ip>:/storage/share/nrpe/ubuntu /etc/nagios
+rsync -a <ip>:/storage/share/nrpe/ /etc/nagios
 ufw allow 5666
 sleep 1
 systemctl enable nagios-nrpe-server
