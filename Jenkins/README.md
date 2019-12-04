@@ -1,11 +1,11 @@
 ## Call a job
 ``` groovy
 def build = build job: '/path/to/job',
-    parameters: [
+	parameters: [
 		string(name: 'STRING_PARAM', value: 'value'), 
 		text(name: 'TEXT_PARAM', value: 'multiline\ntext\n'),
 		booleanParam(name: 'BOOLEAN_PARAM', value: false)
-    ]
+	]
 echo build.displayName
 ```
 ## Set display name
