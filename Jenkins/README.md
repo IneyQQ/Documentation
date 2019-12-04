@@ -1,11 +1,11 @@
 ## Call a job
 ``` groovy
 def build = build job: '/path/to/job',
-	parameters: [
-		string(name: 'STRING_PARAM', value: 'value'), 
-		text(name: 'TEXT_PARAM', value: 'multiline\ntext\n'),
-		booleanParam(name: 'BOOLEAN_PARAM', value: false)
-	]
+    parameters: [
+        string(name: 'STRING_PARAM', value: 'value'), 
+        text(name: 'TEXT_PARAM', value: 'multiline\ntext\n'),
+        booleanParam(name: 'BOOLEAN_PARAM', value: false)
+    ]
 echo build.displayName
 ```
 ## Set display name
@@ -22,12 +22,12 @@ emailext subject: "Build Failure",
 ## Try/catch/finally
 ```groovy
 try {
-	throw new Exception("Bad thing happens")
+    throw new Exception("Bad thing happens")
 } catch (err) {
-	fixIfNeeded()
-	throw new Exception(err)
+    fixIfNeeded()
+    throw new Exception(err)
 } finally {
-	freeResources(resources)
+    freeResources(resources)
 }
 ```
 ## Clone repo
