@@ -1,0 +1,4 @@
+yum install -y nrpe nagios-plugins nagios-plugins-disk.x86_64
+firewall-cmd --add-port=5666/tcp --permanent
+sleep 1
+systemctl enable nrpe
