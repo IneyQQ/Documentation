@@ -1,0 +1,130 @@
+#!/bin/sh
+
+# Preparing the java home path for execution
+JAVA_EXEC='java'
+# JVM Parameters and Spring boot parameters
+JVM_PARAM='-Xms512m -Xmx1024m'
+# Absolute path to service application home directory
+APP_BIN=$(cd "$(dirname "$0")"; pwd -P)
+
+# Service application jar file name prefix
+APP_NAME="$1"
+# Command to execute
+COMMAND="$2"
+# Application arguments
+shift 2
+APP_ARGUMENTS="$@"
+
+/bin/echo "------------------------------------------------------"
+/bin/echo "| APP NAME : $APP_NAME"
+/bin/echo "| COMMAND  : $COMMAND"
+if [ -n "$APP_ARGUMENTS" ]; then
+  /bin/echo "| ARGUMENTS: $APP_ARGUMENTS"
+fi
+/bin/echo "------------------------------------------------------"
+
+HELP_MESSAGE="Usage: $0 {application} {start|start-in-background|start-in-foreground|stop|status|restart|kill} [--arg1=value1] [--arg2=value2] ..."
+SHUTDOWN_TIMEOUT=120
+
+app_pid() {
+  /bin/echo `ps aux |grep [j]ava.*$APP_BIN/$APP_NAME.*jar | awk {'print $2'}`
+}
+
+status() {
+  PID=$(app_pid)
+  if [ -n "$PID" ]; then 
+    /bin/echo "Application [$APP_NAME] is running with pid: $PID"
+  else
+    /bin/echo "Application [$APP_NAME] is not running"
+  fi
+}
+
+start() {
+  START_TYPE=$1
+  PID=$(app_pid)
+  if [ -z "$PID" ]; then
+    JAR_FILE=$(ls -t $APP_BIN/$APP_NAME*.jar | head -n1)
+    /bin/echo "JarFile: $JAR_FILE"
+
+    # Running application with params
+    STARTUP_COMMAND="$JAVA_EXEC $JVM_PARAM -jar $JAR_FILE $APP_ARGUMENTS"
+    /bin/echo "Exec: $STARTUP_COMMAND"
+    if [ "$START_TYPE" = background ]; then
+      `nohup $STARTUP_COMMAND </dev/null>/dev/null 2>&1 &`
+    elif [ "$START_TYPE" = foreground ]; then
+      $STARTUP_COMMAND
+    else
+      echo "Unknown start type: $START_TYPE"
+      exit 1
+    fi
+
+    # Check if application was started
+    PID=$(app_pid)
+    if [ -n "$PID" ]; then 
+      /bin/echo "Starting application [$APP_NAME] with pid: $PID"
+    else
+      /bin/echo "Failed to start application [$APP_NAME]"
+      return 1
+    fi
+  else
+    /bin/echo "Application [$APP_NAME] is already running with pid: $PID"
+  fi
+}
+
+terminate() {
+  /bin/echo "Terminating application [$APP_NAME]"
+  kill -9 $(app_pid)
+}
+
+stop() {
+  PID=$(app_pid)
+  if [ -n "$PID" ]; then
+    /bin/echo "Stoping application [$APP_NAME]"
+    kill $PID
+    sleep 2
+ 
+    count=0
+    kwait=$SHUTDOWN_TIMEOUT
+    until [ `ps -p $PID | grep -c $PID` = '0' ] || [ $count -gt $kwait ]; do
+      /bin/echo -n -e "waiting for processes to exit $count sec\n"
+      count=$((count+1))
+      sleep 1
+    done
+ 
+    if [ $count -gt $kwait ]; then
+      /bin/echo -n -e "killing processes didn't stop after $SHUTDOWN_TIMEOUT seconds\n"
+      terminate
+    fi
+  else
+    /bin/echo "Application [$APP_NAME] is not running"
+  fi
+}
+
+case $COMMAND in
+  start-in-background)
+    start background
+  ;;
+  start-in-foreground)
+    start foreground
+  ;;
+  start)
+    start background
+  ;;
+  stop)  
+    stop
+  ;;
+  restart)
+    stop
+    start
+  ;;
+  status)
+    status  
+  ;;
+  kill)
+    terminate
+  ;;		
+  *)
+    /bin/echo $HELP_MESSAGE
+  ;;
+esac    
+exit 0
